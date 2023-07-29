@@ -3,9 +3,13 @@ from flask_restful import Api, Resource
 import pickle
 import pandas as pd
 import requests
+from flask_cors import CORS  # Import flask_cors
 
 app = Flask(__name__)
 api = Api(app)
+
+# Enable CORS for the entire app
+CORS(app)
 
 df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
@@ -95,7 +99,7 @@ def predict():
         data["flight_data"]["Destination_Kolkata"] = 1
 
     # Call the prediction service
-    prediction_response = requests.post("http://localhost:3001/predict", json=data)
+    prediction_response = requests.post("http://4.224.249.94:3001/predict", json=data)
 
     # Print the response for debugging
     print(prediction_response.text)
