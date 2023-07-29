@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 from flask_cors import CORS  # Import flask_cors
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 api = Api(app)
 
 # Enable CORS for the entire app
