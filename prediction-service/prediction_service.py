@@ -4,8 +4,11 @@ from flask_restful import Api, Resource
 import pickle
 import pandas as pd
 import requests
+from flask_cors import CORS  # Import flask_cors
 
 app = Flask(__name__)
+# Enable CORS for the entire app
+CORS(app)
 
 @app.route("/", methods=["GET"])
 def home():
