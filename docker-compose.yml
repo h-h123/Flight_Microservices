@@ -1,0 +1,21 @@
+version: '3'
+services:
+  main-app:
+    build:
+      context: ./main-app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
+      - ./flight_rf.pkl:/app/flight_rf.pkl
+    depends_on:
+      - prediction-service
+
+  prediction-service:
+    build:
+      context: ./prediction-service
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
+      - ./flight_rf.pkl:/app/flight_rf.pkl
