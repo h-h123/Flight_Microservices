@@ -4,11 +4,8 @@ from flask_restful import Api, Resource
 import pickle
 import pandas as pd
 import requests
-from flask_cors import CORS  # Import flask_cors
 
-app = Flask(__name__, template_folder="templates")
-# Enable CORS for the entire app
-CORS(app)
+app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -17,29 +14,11 @@ def home():
 df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
-def preprocess_duration(duration_str):
-    if 'h' in duration_str and 'm' in duration_str:
-        hours, minutes = duration_str.split()
-        hours = int(hours[:-1])  # Extract the numeric value of hours
-        minutes = int(minutes[:-1])  # Extract the numeric value of minutes
-    elif 'h' in duration_str:
-        hours = int(duration_str[:-1])
-        minutes = 0
-    elif 'm' in duration_str:
-        hours = 0
-        minutes = int(duration_str[:-1])
-    else:
-        raise ValueError("Invalid duration format: " + duration_str)
+def preprocess_duration(duration_minutes):
+    hours = int(duration_minutes // 60)
+    minutes = int(duration_minutes % 60)
     total_minutes = hours * 60 + minutes
     return total_minutes
-
-
-# Apply the preprocessing function to the 'Duration' column
-df['Duration(min)'] = df['Duration'].apply(preprocess_duration)
-
-# Drop the original 'Duration' column from the DataFrame
-df.drop('Duration', axis=1, inplace=True)
-
 
 def predict_flight_duration(flight_data):
     prediction = model.predict([[
@@ -65,9 +44,15 @@ def predict_flight_duration(flight_data):
         flight_data["Price"]  
     ]])
 
-    print("this is my prediction@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",prediction)
-    print("==========================================================================")
-    return prediction
+    # Get the predicted duration in minutes directly
+    predicted_duration_minutes = prediction[0]
+
+    # Preprocess the duration to convert to the total number of minutes
+    predicted_duration = preprocess_duration(predicted_duration_minutes)
+
+    #print("this is my prediction@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", prediction)
+    #print("==========================================================================")
+    return predicted_duration
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -75,16 +60,12 @@ def predict():
     flight_data = data.get("flight_data")
 
     # Call the prediction function on the flight data and get the duration prediction.
-    predicted_duration_minutes = predict_flight_duration(flight_data)
-
-    # Preprocess the duration
-    predicted_duration = preprocess_duration(predicted_duration_minutes)
-
+    predicted_duration = predict_flight_duration(flight_data)
 
     # Print the predicted duration for debugging
-    print(predicted_duration)
-    print("=====================================================================================")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    #print(predicted_duration)
+    #print("=====================================================================================")
+    #print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
     # Return the predicted duration in the response
     response_data = {"duration": predicted_duration}
