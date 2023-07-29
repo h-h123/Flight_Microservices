@@ -13,11 +13,66 @@
 
     <!-- css -->
     <link rel="stylesheet" href="static/styles.css">
+    <style>
+        /* Add CSS styles for the background photo */
+        body {
+            background-image: url("static/background.jpg"); /* Replace "background.jpg" with your actual background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed; /* Prevent background image scrolling */
+        }
+        /* Add CSS styles for the centered container */
+        .centered-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
 
+            height: 100vh;
+            padding-right: 20%; /* Adjust the right padding to position the form container */
+            position: fixed;
+            top: 140;
+            right: 160;
+        }
+
+        /* Add CSS styles to make the form container take one-third of the screen width */
+        .form-container {
+        display: inline-block;
+        padding: 10px; /* Add some padding to the form container */
+        background-color: white; /* Set the background color of the form container to white */
+        position: fixed;
+        top: 140px; /* Adjust the top position */
+        right: 160px; /* Adjust the right position */
+    }
+
+                /* Add CSS styles to make the card containers smaller and horizontally bigger */
+        .card {
+        flex: 1; /* Make the cards grow to fill the available space in the row */
+        margin-right: 5px; /* Adjust the margin to control the spacing between the cards */
+        border: 1px solid black; /* Add a slim black border around each card */
+        }
+        .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-gap: 5px; /* Adjust the gap between the cards */
+        }
+
+        /* Add CSS styles to make the container a perfect square rectangle with a black border */
+        .container {
+            width: 500px; /* Adjust the width to make it a square */
+            height: 500px; /* Adjust the height to make it a square */
+             /* Add a black border */
+        }
+        .card-body {
+        max-width: 100%; /* Set the maximum width to 100% to prevent overflow */
+    }
+    </style>
 
 </head>
 
 <body>
+
+
 
     <!-- As a heading -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -41,7 +96,9 @@
         </div>
     </nav>
 
-    <br><br><br>
+
+    <div class="centered-container">
+        <div class="form-container">
 
 
     <div class="container">
@@ -61,9 +118,8 @@
                         </div>
                     </div>
                 </div>
-                <br>
-                <br>
-                <br>
+
+
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body">
@@ -81,7 +137,7 @@
                                 <!-- <option value="Multiple carriers Premium economy">Multiple carriers Premium economy
                                 </option> -->
                                 <option value="Jet Airways Business">Jet Airways Business</option>
-                                <option value="Vistara Premium economy">Vistara Premium economy</option>
+                                <option value="Vistara Premium economy">Vistara Premium Eco</option>
                                 <option value="Trujet">Trujet</option>
                             </select>
                         </div>
@@ -89,10 +145,9 @@
                 </div>
                 
             </div>
+            <br>
 
-            <br>
-            <br>
-            <br>
+
 
             <div class="row">
                 <div class="col-sm-6">
@@ -125,12 +180,9 @@
                     </div>
                 </div>
             </div>
+            <br>
 
 
-
-            <br>
-            <br>
-            <br>
 
             <div class="row">
                 <div class="col-sm-6">
@@ -168,23 +220,21 @@
             </div>
 
 
-
-            <br>
-            <br>
-            <br>
             <!-- Submit -->
+            <br>
             <input type="submit" value="Perdict Duration" class="btn btn-secondary">
+            <br>
+            <br>
+            <h3>{{ prediction_text }}</h3>
         </form>
 
-        <br>
-        <br>
-        <h3>{{ prediction_text }}</h3>
 
-        <br>
-        <br>
+
+
+
         
 
-    </div>
+    </div></div></div>
 
 
 
