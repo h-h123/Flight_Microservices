@@ -14,41 +14,17 @@
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
+    <div class="content">
+        <div class="container">
     <h1>Flight Comparison</h1>
-    <div class="container">
-        <form action="/show_flights" method="post">
+  
+        <form action="/compare_flights" method="post">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-sm-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Preferred Airline</h5>
-                                <!-- Airline -->
-                                <select name="airline" id="airline" required="required" class="form-control">
-                                    <option value="Jet Airways">Jet Airways</option>
-                                    <option value="IndiGo">IndiGo</option>
-                                    <option value="Air India">Air India</option>
-                                    <!-- <option value="Multiple carriers">Multiple carriers</option> -->
-                                    <option value="SpiceJet">SpiceJet</option>
-                                    <option value="Vistara">Vistara</option>
-                                    <option value="Air Asia">Air Asia</option>
-                                    <option value="GoAir">GoAir</option>
-                                    <!-- <option value="Multiple carriers Premium economy">Multiple carriers Premium economy
-                                    </option> -->
-                                    <option value="Jet Airways Business">Jet Airways Business</option>
-                                    <option value="Vistara Premium economy">Vistara Premium economy</option>
-                                    <option value="Trujet">Trujet</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <br>
                 <br>
 
-                <div class="row">
-                    <div class="col-sm-6">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-sm-5">
                         <div class="card">
                             <div class="card-body">
                                 
@@ -63,7 +39,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Travelling To (Destination)</h5>
@@ -81,37 +57,51 @@
 
                 <br>
                 <br>
-                <div class="row">
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Minimum Flight Duration (hours):</h5>
-                
-                            <input type="number" name="min_duration" id="min_duration"  required="required">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Maximum Flight Duration (hours):</h5>
-               
-                            <input type="number" name="max_duration" id="max_duration"  required="required">
-                        </div>
-                    </div>
-                </div>
-                </div>
-
-                <br>
-                <br>
 
             <input type="submit" value="Compare Flights" class="btn btn-primary">
+            <br><br>
+
         </form>
-    </div>
+        
+
+        {% if error_message %}
+        <div>{{ error_message }}</div>
+    {% else %}
+        <!-- Display the India map and pie charts here -->
+        <div class="row"><div class="container d-flex justify-content-center">
+            <div class="col-md-11">
+                {{ india_map_html | safe }}
+            </div>
+        </div></div>
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-5">
+                <div class="py-3">
+                    {{ pie_chart1_html | safe }}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <div class="py-3">
+                    {{ pie_chart2_html | safe }}
+                </div>
+            </div>
+        </div>
+        
+            
+        </div><div class="container d-flex justify-content-center align-items-center">
+        <div class="row">
+            <div class="col-md-10">
+                {{ bar_graph_html | safe }}
+            </div>
+        </div></div>
+    {% endif %}
+    
+
+    </div></div></div>
 
 
 
-    <!-- JavaScript -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

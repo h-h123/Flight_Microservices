@@ -1,23 +1,23 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, render_template_string
 from flask_restful import Api, Resource
 import pickle
 import pandas as pd
 import requests
-from flask_cors import CORS  # Import flask_cors
+import os
+import json
+import pdb
 
-app = Flask(__name__, template_folder="templates")
+
+app = Flask(__name__, template_folder='templates')
 api = Api(app)
-
-# Enable CORS for the entire app
-CORS(app)
 
 df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
-
 
 
 @app.route("/predict", methods=["POST"])
@@ -103,8 +103,6 @@ def predict():
 
     # Print the response for debugging
     print(prediction_response.text)
-    print("=====================================================================================")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
     # Check if the request was successful (status code 200)
     if prediction_response.status_code == 200:
@@ -125,19 +123,54 @@ def predict():
         return "Prediction Service Error", 500
 
 
+# Route to display the flight comparison page
+@app.route("/flight_comparison")
+def flight_comparison_page():
+    url = "http://4.224.249.94:3003/"  # Full URL to the flight_comparison.html template
+    response = requests.get(url)
+    response_html = response.text
 
-# @app.route("/flight_comparison", methods=["POST"])
-# def flight_comparison():
-#     data = {
-#         "airline": request.form["airline"],
-#         "source": request.form["Source"],
-#         "destination": request.form["Destination"],
-#         "min_duration": request.form["min_duration"],
-#         "max_duration": request.form["max_duration"]
-#     }
-#     comparison_response = requests.post("http://localhost:3002/flight_comparison", json=data)
-#     flights_list = comparison_response.json()["flights_list"]
-#     return render_template("flights_list.html", flights_list=flights_list)
+    # Pass the HTML response to the template to render
+    return render_template_string(response_html)
+
+
+# button 
+@app.route("/compare_flights", methods=["POST"])
+def compare_flights():
+    #pdb.set_trace()  # This will start the debugging session
+    data = {
+        "Source": request.form["Source"],
+        "Destination": request.form["Destination"],
+    }
+
+    try:
+        # Make a POST request to the flight_comparison_service microservice
+        response = requests.post("http://4.224.249.94:3003/compare_flights", data=data)
+
+        # Check the HTTP response status code
+        print("Response Status Code:", response.status_code)
+
+        # Get the HTML response from the flight_comparison_service
+        response_html = response.text
+
+            # Print the value of response_html for debugging purposes
+        print("Response HTML:", response_html)
+
+        # Pass the HTML response to the template to render
+        return render_template(
+            "flight_comparison.html",
+            response_html=response_html,
+            error_message=None
+        )
+
+    except requests.RequestException as e:
+        # If there is any exception related to the request (e.g., connection error, timeout, etc.)
+        # display an error message
+        return render_template(
+            "flight_comparison.html",
+            response_html="",
+            error_message="Flight comparison functionality is currently unavailable. Please try again later."
+        )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3002, debug=True)

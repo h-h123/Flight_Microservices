@@ -10,6 +10,7 @@ services:
       - ./flight_rf.pkl:/app/flight_rf.pkl
     depends_on:
       - prediction-service
+      - light-compare-service
 
   prediction-service:
     build:
@@ -19,3 +20,11 @@ services:
     volumes:
       - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
       - ./flight_rf.pkl:/app/flight_rf.pkl
+
+  flight-compare-service:
+    build:
+      context: ./flight-compare-service
+    ports:
+            - "3003:3003"
+    volumes:
+      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx

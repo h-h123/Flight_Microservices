@@ -43,4 +43,5 @@ Werkzeug==2.3.6
 zipp==3.16.0
 flask-restful
 requests
+folium
 flask-cors
