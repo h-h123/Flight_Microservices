@@ -4,13 +4,13 @@ services:
     build:
       context: ./main-app
     ports:
-            - "3002:3002"
+      - "3002:3002"
     volumes:
-      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
-      - ./flight_rf.pkl:/app/flight_rf.pkl
+      - ./main-app/FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
+      - ./main-app/flight_rf.pkl:/app/flight_rf.pkl
     depends_on:
       - prediction-service
-      - light-compare-service
+      - flight-compare-service  # Corrected the service name here
 
   prediction-service:
     build:
@@ -18,13 +18,13 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
-      - ./flight_rf.pkl:/app/flight_rf.pkl
+      - ./prediction-service/FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
+      - ./prediction-service/flight_rf.pkl:/app/flight_rf.pkl
 
   flight-compare-service:
     build:
       context: ./flight-compare-service
     ports:
-            - "3003:3003"
+      - "3003:3003"
     volumes:
-      - ./FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx
+      - ./flight-compare-service/FlightFare_Dataset.xlsx:/app/FlightFare_Dataset.xlsx

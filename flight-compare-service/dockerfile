@@ -4,7 +4,7 @@ FROM python:3.11-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the entire contents of the prediction-service directory into the container at /app
+# Copy the entire contents of the flight-compare-service directory into the container at /app
 COPY . /app
 
 # Copy the requirements.txt file into the container
@@ -13,11 +13,8 @@ COPY requirements.txt .
 # Install the required libraries using pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the flight_comparison_service.py file into the container
-COPY  flight_comparison_service.py .
-
 # Expose the port on which the Flask app will run
 EXPOSE 3003
 
 # Command to start the Flask app
-CMD ["python", " flight_comparison_service.py"]
+CMD ["python", "flight_comparison_service.py"]
