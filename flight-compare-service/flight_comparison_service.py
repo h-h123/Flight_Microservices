@@ -19,7 +19,7 @@ app = Flask(__name__, template_folder='templates')
 
 
 # Load the flight dataset
-df = pd.read_excel("FlightFare_dataset.xlsx")  # Replace with the actual path to your dataset
+df = pd.read_excel("FlightFare_Dataset.xlsx")  # Replace with the actual path to your dataset
 
 # Perform data preprocessing on the 'Duration' column
 def preprocess_duration(duration_str):
