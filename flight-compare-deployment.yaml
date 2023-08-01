@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-compare-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-compare
+  template:
+    metadata:
+      labels:
+        app: flight-compare
+    spec:
+      containers:
+      - name: flight-compare-container
+        image: hunain33/flight-compare:0.0.1.RELEASE  
+        ports:
+        - containerPort: 3003

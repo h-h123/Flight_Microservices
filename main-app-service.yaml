@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-app-service
+spec:
+  selector:
+    app: main-app
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
+      nodePort: 30001  # Explicitly set the NodePort to 30001
+  # Use NodePort service type to access the main-app externally
+  type: NodePort

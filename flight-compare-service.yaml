@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flight-compare-service
+spec:
+  selector:
+    app: flight-compare
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003
+  # Use ClusterIP service type for internal communication within the cluster
+  type: ClusterIP
