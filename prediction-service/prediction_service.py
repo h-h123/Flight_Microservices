@@ -11,7 +11,7 @@ app = Flask(__name__)
 def home():
     return "Prediction Service is running successfully!"
 
-df = pd.read_excel("FlightFare_Dataset.xlsx")
+#df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
 def preprocess_duration(duration_minutes):

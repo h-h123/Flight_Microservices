@@ -11,7 +11,7 @@ import pdb
 app = Flask(__name__, template_folder='templates')
 api = Api(app)
 
-df = pd.read_excel("FlightFare_Dataset.xlsx")
+#df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
 
