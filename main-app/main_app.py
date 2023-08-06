@@ -11,7 +11,7 @@ import pdb
 app = Flask(__name__, template_folder='templates')
 api = Api(app)
 
-df = pd.read_excel("FlightFare_Dataset.xlsx")
+#df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
 
@@ -100,6 +100,7 @@ def predict():
 
     # Call the prediction service
     prediction_response = requests.post("http://4.224.249.94:3001/predict", json=data)
+    #prediction_response = requests.post("http://localhost:3001/predict", json=data)
 
     # Print the response for debugging
     print(prediction_response.text)
@@ -127,6 +128,7 @@ def predict():
 @app.route("/flight_comparison")
 def flight_comparison_page():
     url = "http://4.224.249.94:3003/"  # Full URL to the flight_comparison.html template
+    #url = "http://localhost:3003/"
     response = requests.get(url)
     response_html = response.text
 
@@ -146,6 +148,8 @@ def compare_flights():
     try:
         # Make a POST request to the flight_comparison_service microservice
         response = requests.post("http://4.224.249.94:3003/compare_flights", data=data)
+        #response = requests.post("http://localhost:3003/compare_flights", data=data)
+
 
         # Check the HTTP response status code
         print("Response Status Code:", response.status_code)

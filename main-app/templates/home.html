@@ -1,5 +1,3 @@
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,87 +12,137 @@
     <!-- css -->
     <link rel="stylesheet" href="static/styles.css">
     <style>
-        /* Add CSS styles for the background photo */
-        body {
-            background-image: url("static/background.jpg"); /* Replace "background.jpg" with your actual background image */
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-attachment: fixed; /* Prevent background image scrolling */
-        }
-        /* Add CSS styles for the centered container */
-        .centered-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
+/* Add CSS styles for the background photo */
+body {
+    background-image: url("static/newbackground2.png"); /* Replace "background.jpg" with your actual background image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* Prevent background image scrolling */
+}
 
-            height: 100vh;
-            padding-right: 20%; /* Adjust the right padding to position the form container */
-            position: fixed;
-            top: 140;
-            right: 160;
-        }
+/* Add CSS styles for the centered container */
+.centered-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 60vh;
+    padding-right: 20%; /* Adjust the right padding to position the form container */
+    position: fixed;
+    top: 140px;
+    right: 160px;
+}
 
-        /* Add CSS styles to make the form container take one-third of the screen width */
-        .form-container {
-        display: inline-block;
-        padding: 10px; /* Add some padding to the form container */
-        background-color: white; /* Set the background color of the form container to white */
-        position: fixed;
-        top: 140px; /* Adjust the top position */
-        right: 160px; /* Adjust the right position */
-    }
+/* Add CSS styles to make the form container take one-third of the screen width */
+.form-container {
+    /* width: 600px; */
+    background-color: white; 
+    /* opacity: 0.8; */
+    position: fixed;
+    top: 135px; /* Adjust the top position */
+    right: 150px; /* Adjust the right position */
+    border-radius: 10px; /* Add rounded corners to the container */
+    
+}
 
-                /* Add CSS styles to make the card containers smaller and horizontally bigger */
-        .card {
-        flex: 1; /* Make the cards grow to fill the available space in the row */
-        margin-right: 5px; /* Adjust the margin to control the spacing between the cards */
-        border: 1px solid black; /* Add a slim black border around each card */
-        }
-        .card-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        grid-gap: 5px; /* Adjust the gap between the cards */
-        }
+/* Add CSS styles to make the card containers smaller and horizontally bigger */
+.card {
+    flex: 1; /* Make the cards grow to fill the available space in the row */
+    margin-right: 5px; /* Adjust the margin to control the spacing between the cards */
+    border: 1px solid black; /* Add a slim black border around each card */
+    height: 70px; /* Adjust the height of the card */
+    display: flex; /* Use flex display to control text alignment */
+    align-items: center; /* Center the content vertically */
+    justify-content: center; /* Center the content horizontally */
+}
 
-        /* Add CSS styles to make the container a perfect square rectangle with a black border */
-        .container {
-            width: 500px; /* Adjust the width to make it a square */
-            height: 500px; /* Adjust the height to make it a square */
-             /* Add a black border */
-        }
-        .card-body {
-        max-width: 100%; /* Set the maximum width to 100% to prevent overflow */
-    }
+.card-body {
+    max-height: 100%;
+    padding: 5px; /* Adjust padding to fit more content within the card */
+    font-size: 12px; /* Set the desired font size for the card content */
+    text-align: center; /* Center the text horizontally */
+    overflow: hidden; /* Hide any overflowing content */
+    white-space: nowrap; /* Prevent line breaks inside the card's content */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px; /* Adjust the gap between the cards */
+}
+
+
+/* Add CSS styles to make the container a perfect square rectangle with a black border */
+/* Adjust the width of the container to make it wider */
+.container {
+    width: 550px; /* Increased the width to 700px */
+    height: 400px; /* Adjust the height to make it a square */
+    display: flex; /* Use flex display to center the contents vertically and horizontally */
+    align-items: center; /* Center the contents vertically */
+    justify-content: center; /* Center the contents horizontally */
+    border: 1px solid black; /* Add a black border around the container */
+    border-radius: 10px; /* Add rounded corners to the container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow to the container */
+}
+.card-body {
+    max-width: 100%; /* Set the maximum width to 100% to prevent overflow */
+}
+
+    .navbar-right.d-flex ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.left-side-text {
+    position: fixed;
+    top: 250px;
+    left: 50px;
+    width: 350px;
+    color: rgb(0, 0, 0);
+}
+
+.left-side-text h2 {
+    font-size: 28px;
+    font-weight: bold; /* Make the h2 heading bold */
+    margin-bottom: 10px;
+}
+
+.left-side-text p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
     </style>
 
 </head>
 
 <body>
 
+    <div class="left-side-text">
+        <h2>Plan Your Travel with Us</h2>
+        <p>Get flight duration predictions and airline insights for your travel planning needs.
+        Make informed decisions for your next trip!</p>
+    </div>
 
-
-    <!-- As a heading -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Flight Duration Prediction</a>
             </div>
+            <div class="navbar-right d-flex">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 20px;">
+                        <a class="nav-link" href="/flight_comparison">Flight Comparison</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <!-- Add the Flight Comparison link with href to the flight_comparison page -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/flight_comparison">Flight Comparison</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    
 
 
     <div class="centered-container">
@@ -222,8 +270,7 @@
 
             <!-- Submit -->
             <br>
-            <input type="submit" value="Perdict Duration" class="btn btn-secondary">
-            <br>
+            <input type="submit" value="Predict Duration" class="btn btn-secondary">
             <br>
             <h3>{{ prediction_text }}</h3>
         </form>

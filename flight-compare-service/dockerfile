@@ -9,6 +9,8 @@ COPY . /app
 
 # Copy only the necessary files to the container
 COPY flight_comparison_service.py .
+
+# Copy the Excel file from the root directory into the container's /app directory
 COPY FlightFare_Dataset.xlsx .
 
 

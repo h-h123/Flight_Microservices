@@ -13,11 +13,19 @@ from plotly.subplots import make_subplots
 import folium
 from flask_cors import CORS
 import requests
+import os
 
 
 app = Flask(__name__, template_folder='templates')
 
+# # Get the absolute path of the directory containing the main_app.py script
+# script_dir = os.path.dirname(os.path.abspath(__file__))
 
+# # Construct the absolute path to the Excel file
+# file_path = os.path.join(script_dir, "../FlightFare_Dataset.xlsx")
+
+# # Read the Excel file
+# df = pd.read_excel(file_path)
 # Load the flight dataset
 df = pd.read_excel("FlightFare_Dataset.xlsx")  # Replace with the actual path to your dataset
 
