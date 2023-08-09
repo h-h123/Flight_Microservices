@@ -1,0 +1,86 @@
+2023-08-08 12:48:55,712 - main_app - DEBUG - Prediction Service is starting...
+2023-08-08 12:48:56,718 - main_app - DEBUG - Starting the application...
+2023-08-08 12:50:33,144 - main_app - INFO - Home route accessed.
+2023-08-08 12:50:53,763 - main_app - INFO - Home route accessed.
+2023-08-08 12:57:53,398 - main_app - DEBUG - Prediction Service is starting...
+2023-08-08 12:57:54,365 - main_app - DEBUG - Starting the application...
+2023-08-08 13:03:59,873 - main_app - INFO - Home route accessed.
+2023-08-08 13:04:01,686 - main_app - INFO - Home route accessed.
+2023-08-08 13:14:09,795 - main_app - DEBUG - Prediction Service is starting...
+2023-08-08 13:14:10,505 - main_app - DEBUG - Starting the application...
+2023-08-08 13:14:11,811 - main_app - DEBUG - Prediction Service is starting...
+2023-08-08 13:14:12,591 - main_app - DEBUG - Starting the application...
+2023-08-08 13:14:35,783 - main_app - INFO - Home route accessed.
+2023-08-08 13:14:48,951 - main_app - INFO - Home route accessed.
+2023-08-08 13:14:59,412 - main_app - INFO - Home route accessed.
+2023-08-08 13:15:13,382 - main_app - INFO - Home route accessed.
+2023-08-08 13:15:19,351 - main_app - INFO - Home route accessed.
+2023-08-08 13:17:58,816 - main_app - DEBUG - Prediction Service is starting...
+2023-08-08 13:17:59,662 - main_app - DEBUG - Starting the application...
+2023-08-08 13:20:28,456 - main_app - INFO - Home route accessed.
+2023-08-08 13:20:36,799 - main_app - INFO - Home route accessed.
+2023-08-08 13:30:20,815 - main_app - INFO - Home route accessed.
+2023-08-08 13:30:27,312 - main_app - INFO - Home route accessed.
+2023-08-08 16:27:23,216 - main_app - INFO - Home route accessed.
+2023-08-08 16:27:34,213 - main_app - INFO - Home route accessed.
+2023-08-09 14:34:02,837 - main_app - INFO - Home route accessed.
+2023-08-09 14:34:03,488 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:34:05,978 - main_app - INFO - Home route accessed.
+2023-08-09 14:34:06,877 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:34:16,051 - main_app - INFO - User Inputs: ImmutableMultiDict([('Dep_Time', '2023-08-11'), ('airline', 'Vistara'), ('Source', 'Banglore'), ('Destination', 'Kolkata'), ('stops', '0'), ('PriceRange', 'low_price')])
+2023-08-09 14:34:16,058 - main_app - INFO - Prediction Output: {
+  "duration": 167
+}
+
+2023-08-09 14:34:16,703 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:34:20,179 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:34:29,820 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:34:46,576 - main_app - INFO - Home route accessed.
+2023-08-09 14:34:47,461 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 14:44:02,914 - main_app - INFO - Home route accessed.
+2023-08-09 15:04:26,180 - main_app - INFO - Home route accessed.
+2023-08-09 15:04:26,794 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:04:31,548 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:20:47,705 - main_app - INFO - Home route accessed.
+2023-08-09 15:20:48,482 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:20:49,901 - main_app - INFO - Home route accessed.
+2023-08-09 15:20:50,674 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:20:56,113 - main_app - INFO - User Inputs: ImmutableMultiDict([('Dep_Time', '2023-08-11'), ('airline', 'Jet Airways'), ('Source', 'Banglore'), ('Destination', 'Cochin'), ('stops', '0'), ('PriceRange', 'low_price')])
+2023-08-09 15:20:56,169 - main_app - INFO - Prediction Output: {
+  "duration": 173
+}
+
+2023-08-09 15:20:57,012 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:21:00,535 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:21:10,561 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:21:18,952 - main_app - INFO - Home route accessed.
+2023-08-09 15:21:19,847 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:21:21,751 - main_app - INFO - Home route accessed.
+2023-08-09 15:21:22,697 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:50,136 - main_app - INFO - Home route accessed.
+2023-08-09 15:27:50,981 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:51,021 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:56,731 - main_app - INFO - User Inputs: ImmutableMultiDict([('Dep_Time', '2023-08-09'), ('airline', 'Jet Airways'), ('Source', 'Banglore'), ('Destination', 'Cochin'), ('stops', '0'), ('PriceRange', 'low_price')])
+2023-08-09 15:27:56,771 - main_app - INFO - Prediction Output: {
+  "duration": 170
+}
+
+2023-08-09 15:27:57,551 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:57,602 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:58,375 - main_app - INFO - Home route accessed.
+2023-08-09 15:27:59,322 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:27:59,366 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:02,124 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:02,158 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:09,469 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:09,531 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:11,530 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:11,579 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:13,721 - main_app - INFO - Home route accessed.
+2023-08-09 15:28:14,386 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 15:28:14,436 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 16:29:54,637 - main_app - INFO - Home route accessed.
+2023-08-09 16:29:55,274 - main_app - ERROR - Error serving favicon: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 16:29:55,282 - main_app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2023-08-09 16:43:17,783 - main_app - INFO - Home route accessed.
+2023-08-09 16:43:23,053 - main_app - INFO - Home route accessed.

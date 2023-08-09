@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, render_template_string
+from flask import Flask, request, jsonify, render_template, render_template_string, send_from_directory
 from flask_restful import Api, Resource
 import pickle
 import pandas as pd
@@ -6,17 +6,61 @@ import requests
 import os
 import json
 import pdb
-
+from elasticapm.contrib.flask import ElasticAPM
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__, template_folder='templates')
 api = Api(app)
+
+# Configure logging to write logs to a file and the console
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_handler = RotatingFileHandler('app.log', maxBytes=1024 * 1024, backupCount=5)
+log_handler.setLevel(logging.INFO)
+log_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+app.logger.addHandler(log_handler)
+
+app.config['ELASTIC_APM'] = {
+  'SERVICE_NAME': 'frontend-service',
+
+  'SECRET_TOKEN': 'nmf61ZubURfIOqGx64',
+
+  'SERVER_URL': 'https://2365a3d24ef243089d6cbfc2aede69c4.apm.us-central1.gcp.cloud.es.io:443',
+
+  'ENVIRONMENT': 'my-environment',
+
+  'CAPTURE_BODY': 'off', # Avoid capturing request/response bodies in logs
+
+  'LOG_LEVEL': 'error',  # Capture all log levels using trace 
+
+  'DEBUG': True # Set to False for production
+}
+
+apm = ElasticAPM(app, service_name ='frontend-service', secret_token='nmf61ZubURfIOqGx64', logging=True)
+
+# Add logging statements
+#app.logger.debug("Prediction Service is starting...")
 
 #df = pd.read_excel("FlightFare_Dataset.xlsx")
 model = pickle.load(open("flight_rf.pkl", "rb"))
 
 
+# Add a route to serve the favicon.ico file
+@app.route('/favicon.ico')
+def favicon():
+    try:
+        # Send the favicon.ico file from the static folder
+        return send_from_directory(app.static_folder, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    except Exception as e:
+        # Handle errors gracefully
+        app.logger.error(f"Error serving favicon: {str(e)}")
+        # Send the default favicon icon with appropriate headers
+        return send_from_directory(app.static_folder, 'default_favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
 @app.route("/")
 def home():
+    app.logger.info("Home route accessed.")
     return render_template("home.html")
 
 
@@ -103,7 +147,12 @@ def predict():
     #prediction_response = requests.post("http://localhost:3001/predict", json=data)
 
     # Print the response for debugging
-    print(prediction_response.text)
+    #print(prediction_response.text)
+
+    # Log user inputs
+    app.logger.info(f"User Inputs: {request.form}")
+    # Log prediction output
+    app.logger.info(f"Prediction Output: {prediction_response.text}")
 
     # Check if the request was successful (status code 200)
     if prediction_response.status_code == 200:
@@ -157,8 +206,8 @@ def compare_flights():
         # Get the HTML response from the flight_comparison_service
         response_html = response.text
 
-            # Print the value of response_html for debugging purposes
-        print("Response HTML:", response_html)
+        # Print the value of response_html for debugging purposes
+        #print("Response HTML:", response_html)
 
         # Pass the HTML response to the template to render
         return render_template(
@@ -176,5 +225,12 @@ def compare_flights():
             error_message="Flight comparison functionality is currently unavailable. Please try again later."
         )
 
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    app.logger.error(f"An error occurred: {str(e)}")
+    return "An error occurred.", 500
+
 if __name__ == "__main__":
+    app.logger.debug("Starting the application...")
     app.run(host="0.0.0.0", port=3002, debug=True)

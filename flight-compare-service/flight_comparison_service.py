@@ -14,9 +14,41 @@ import folium
 from flask_cors import CORS
 import requests
 import os
+from elasticapm.contrib.flask import ElasticAPM
+import logging
+from logging.handlers import RotatingFileHandler
+from folium.plugins import AntPath
+#from folium import Marker, plugins
+
 
 
 app = Flask(__name__, template_folder='templates')
+
+# # Configure logging to write logs to a file and the console
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# log_handler = RotatingFileHandler('app.log', maxBytes=1024 * 1024, backupCount=5)  # Create a rotating log file handler
+# log_handler.setLevel(logging.DEBUG)  # Set the log level for the handler
+# log_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+# app.logger.addHandler(log_handler)  # Attach the handler to the Flask app logger
+
+app.config['ELASTIC_APM'] = {
+  'SERVICE_NAME': 'flight-compare-service',
+
+  'SECRET_TOKEN': 'nmf61ZubURfIOqGx64',
+
+  'SERVER_URL': 'https://2365a3d24ef243089d6cbfc2aede69c4.apm.us-central1.gcp.cloud.es.io:443',
+
+  'ENVIRONMENT': 'my-environment',
+
+  'CAPTURE_BODY': 'off',
+
+  'LOG_LEVEL': 'error',  # Capture all log levels using trace
+
+  'DEBUG': True
+}
+
+apm = ElasticAPM(app, service_name ='flight-compare-service', secret_token='nmf61ZubURfIOqGx64',logging=True)
+
 
 # # Get the absolute path of the directory containing the main_app.py script
 # script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -56,6 +88,10 @@ df.replace({"non-stop": 0, "1 stop": 1, "2 stops": 2, "3 stops": 3, "4 stops": 4
 # Rename 'New Delhi' to 'Delhi' in the 'Destination' column
 df['Destination'].replace({'New Delhi': 'Delhi'}, inplace=True)
 
+# Convert the 'Date_of_Journey' column to datetime format
+df['Date_of_Journey'] = pd.to_datetime(df['Date_of_Journey'], format='%d/%m/%Y')
+
+#print(df.head(5))
 # Define latitude and longitude values for cities (replace with actual coordinates)
 city_coordinates = {
     "Banglore": {"Latitude": 12.9716, "Longitude": 77.5946},
@@ -72,6 +108,18 @@ df["Latitude_Source"] = df["Source"].map(lambda x: city_coordinates[x]["Latitude
 df["Longitude_Source"] = df["Source"].map(lambda x: city_coordinates[x]["Longitude"])
 df["Latitude_Destination"] = df["Destination"].map(lambda x: city_coordinates[x]["Latitude"])
 df["Longitude_Destination"] = df["Destination"].map(lambda x: city_coordinates[x]["Longitude"])
+
+
+# Create a popup content for flight history details
+def create_popup_content(row):
+    popup_content = f"""
+    <strong>Flight Details:</strong><br>
+    Airline: {row['Airline']}<br>
+    Date of Journey: {row['Date_of_Journey']}<br>
+    Source: {row['Source']}<br>
+    Destination: {row['Destination']}<br>
+    """
+    return folium.Popup(popup_content, max_width=300)
 
 
 @app.route("/")
@@ -91,13 +139,17 @@ def compare_flights():
     print("Destination:", destination)
 
     # Filter the dataset based on user inputs
+    # filtered_data = df[
+    #     df["Source"].isin([source]) &
+    #     df["Destination"].isin([destination])
+    # ]
     filtered_data = df[
-        df["Source"].isin([source]) &
-        df["Destination"].isin([destination])
+        (df["Source"].str.capitalize() == source.capitalize()) &
+        (df["Destination"].str.capitalize() == destination.capitalize())
     ]
     
-    print("Filtered Data:")
-    print(filtered_data)
+    #print("Filtered Data:")
+    #print(filtered_data)
 
     if filtered_data.empty:
         return "No flights found for the selected source and destination."
@@ -111,14 +163,78 @@ def compare_flights():
         folium.Marker(location=[coords["Latitude"], coords["Longitude"]],
                     popup=city).add_to(india_map)
 
-    # Check if user inputs are valid cities
+    # # Check if user inputs are valid cities
+    # if source not in city_coordinates or destination not in city_coordinates:
+    #     print("Invalid source or destination.")
+    # else:
+    #     # Add the flight route as a line if user inputs are valid cities
+    #     folium.PolyLine(locations=[(city_coordinates[source]["Latitude"], city_coordinates[source]["Longitude"]),
+    #                             (city_coordinates[destination]["Latitude"], city_coordinates[destination]["Longitude"])],
+    #                     color='blue').add_to(india_map)
+
     if source not in city_coordinates or destination not in city_coordinates:
         print("Invalid source or destination.")
     else:
-        # Add the flight route as a line if user inputs are valid cities
-        folium.PolyLine(locations=[(city_coordinates[source]["Latitude"], city_coordinates[source]["Longitude"]),
-                                (city_coordinates[destination]["Latitude"], city_coordinates[destination]["Longitude"])],
-                        color='blue').add_to(india_map)
+        source_coords = [city_coordinates[source]["Latitude"], city_coordinates[source]["Longitude"]]
+        dest_coords = [city_coordinates[destination]["Latitude"], city_coordinates[destination]["Longitude"]]
+
+        # Create an AntPath connecting the source and destination cities
+        ant_path = AntPath(
+            locations=[source_coords, dest_coords],
+            color='blue',
+            delay=1000
+        )
+        # Add the AntPath and PlaneMarker to the map
+        ant_path.add_to(india_map)
+        
+        # Add time slider plugin for the previous three flights
+        # time_slider = plugins.TimestampedGeoJson({
+        #     'type': 'FeatureCollection',
+        #     'features': [
+        #         {
+        #             'type': 'Feature',
+        #             'geometry': {
+        #                 'type': 'Point',
+        #                 'coordinates': (city_coordinates[flight["Source"]]["Longitude"], city_coordinates[flight["Source"]]["Latitude"]),
+        #             },
+        #             'properties': {
+        #                 'time': flight["Date_of_Journey"].strftime('%Y-%m-%d'),
+        #                 'icon': 'circle',
+        #                 'iconstyle': {
+        #                     'fillColor': 'blue',
+        #                     'fillOpacity': 0.6,
+        #                     'stroke': 'true',
+        #                     'radius': 5,
+        #                 },
+        #             }
+        #         } for index, flight in df.head(3).iterrows()  # Modify this line to use the last three rows
+        #     ]
+        # })
+        # time_slider.add_to(india_map)
+        # # Create a curved polyline connecting the source and destination cities with popup details
+        # curved_polyline = [
+        #     [city_coordinates[source]["Latitude"], city_coordinates[source]["Longitude"]],
+        #     [city_coordinates[destination]["Latitude"], city_coordinates[destination]["Longitude"]]
+        # ]
+        # folium.PolyLine(curved_polyline, color='red', curve=True, dash_array=[10, 20]).add_to(india_map)
+
+        # # Plot flight history using markers and curved lines for the previous three flights
+        # for index, flight in df.tail(3).iterrows():
+        #     source_coords = (city_coordinates[flight["Source"]]["Latitude"], city_coordinates[flight["Source"]]["Longitude"])
+        #     dest_coords = (city_coordinates[flight["Destination"]]["Latitude"], city_coordinates[flight["Destination"]]["Longitude"])
+            
+        #     # Add the flight route as a curved line if user inputs are valid cities
+        #     curved_flight_path = [
+        #         [city_coordinates[flight["Source"]]["Latitude"], city_coordinates[flight["Source"]]["Longitude"]],
+        #         [city_coordinates[flight["Destination"]]["Latitude"], city_coordinates[flight["Destination"]]["Longitude"]]
+        #     ]
+        #     folium.PolyLine(curved_flight_path, color='green', curve=True).add_to(india_map)
+            
+        #     # Add markers with popup content for flight history
+        #     folium.Marker(location=source_coords, icon=folium.Icon(color='blue'), popup=create_popup_content(flight)).add_to(india_map)
+        #     folium.Marker(location=dest_coords, icon=folium.Icon(color='green'), popup=create_popup_content(flight)).add_to(india_map)
+
+
 
     # Convert the folium map to HTML
     india_map_html = india_map._repr_html_()
@@ -163,20 +279,10 @@ def compare_flights():
     # Render the HTML template with the plot data
     return render_template("flight_comparison.html", india_map_html=india_map_html, pie_chart1_html=fig_pie1_html, pie_chart2_html=fig_pie2_html, bar_graph_html=fig_bar_html)
 
-
-
-
-    # # Convert the figure to JSON
-    # fig_json = fig.to_json()
-
-    # # Parse the JSON string back to a dictionary
-    # fig_dict = json.loads(fig_json)
-
-    # # Convert the figure dictionary to an HTML representation
-    # fig_html = pio.to_html(fig_dict)
-
-    # # Return the HTML representation in the response
-    # return fig_html
+@app.route("/simulate_failure")
+def simulate_failure():
+    # Intentionally raise an exception to simulate a failure
+    raise Exception("This is a simulated failure for testing purposes.")
 
 
 

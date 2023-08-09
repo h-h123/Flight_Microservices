@@ -8,6 +8,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Add Leaflet.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Custom CSS -->
     <style>
         body {
@@ -181,6 +183,7 @@
             color: #fff;
         }
 
+
 </style>
 </head>
 <body>
@@ -210,10 +213,11 @@
                             <label class="form-label" for="Source">Travelling from (Source)</label>
                             <select class="form-input" name="Source" id="Source" required>
                                 <option value="" class="placeholder" disabled selected>Select Source</option>
-                                <option value="Bangalore">Bangalore</option>
+                                <option value="Banglore">Banglore</option>
                                 <option value="Kolkata">Kolkata</option>
                                 <option value="Mumbai">Mumbai</option>
                                 <option value="Chennai">Chennai</option>
+                                <option value="Delhi">Delhi</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -224,6 +228,7 @@
                                 <option value="Delhi">Delhi</option>
                                 <option value="Hyderabad">Hyderabad</option>
                                 <option value="Kolkata">Kolkata</option>
+                                <option value="Banglore">Bangalore</option>
                             </select>
                         </div>
                         <!-- Enhanced "Compare Flights" button -->
@@ -297,5 +302,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+    
+        <script>
+            // Define plane icon
+            var planeIcon = L.divIcon({
+                className: 'plane-icon',
+                html: '<i class="fas fa-plane"></i>'
+            });
+    
+            // Create the plane marker
+            var planeMarker = L.marker([sourceLat, sourceLng], {
+                icon: planeIcon
+            });
+    
+            // Create an AntPath connecting the source and destination
+            var antPath = L.polyline([[sourceLat, sourceLng], [destLat, destLng]], {
+                color: 'blue'
+            });
+    
+            // Add the AntPath and plane marker to the map
+            antPath.addTo(map);
+            planeMarker.addTo(map);
+    
+            // Animate the plane marker along the AntPath
+            var animatedMarker = planeMarker.animateAlong(antPath.getLatLngs(), {
+                duration: 5000, // Animation duration in milliseconds
+                keepRotate: true // Keep the marker rotated according to the path
+            });
+        </script>
 </body>
 </html>

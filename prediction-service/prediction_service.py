@@ -4,8 +4,37 @@ from flask_restful import Api, Resource
 import pickle
 import pandas as pd
 import requests
+from elasticapm.contrib.flask import ElasticAPM
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
+
+# # Configure logging to write logs to a file and the console
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# log_handler = RotatingFileHandler('app.log', maxBytes=1024 * 1024, backupCount=5)  # Create a rotating log file handler
+# log_handler.setLevel(logging.DEBUG)  # Set the log level for the handler
+# log_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+# app.logger.addHandler(log_handler)  # Attach the handler to the Flask app logger
+
+app.config['ELASTIC_APM'] = {
+  'SERVICE_NAME': 'prediction -service',
+
+  'SECRET_TOKEN': 'nmf61ZubURfIOqGx64',
+
+  'SERVER_URL': 'https://2365a3d24ef243089d6cbfc2aede69c4.apm.us-central1.gcp.cloud.es.io:443',
+
+  'ENVIRONMENT': 'my-environment',
+
+  'CAPTURE_BODY': 'off',
+
+  'LOG_LEVEL': 'error',  
+
+  'DEBUG': True
+}
+
+apm = ElasticAPM(app, service_name ='prediction -service', secret_token='nmf61ZubURfIOqGx64', logging=True)
+
 
 @app.route("/", methods=["GET"])
 def home():
