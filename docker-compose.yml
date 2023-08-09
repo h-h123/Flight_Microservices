@@ -3,6 +3,7 @@ services:
   main-app:
     build:
       context: ./main-app
+    image: elasticapm-main-app-image
     ports:
       - "3002:3002"
     volumes:
@@ -15,6 +16,7 @@ services:
   prediction-service:
     build:
       context: ./prediction-service
+    image: elasticapm-prediction-image
     ports:
       - "3001:3001"
     volumes:
@@ -24,6 +26,7 @@ services:
   flight-compare-service:
     build:
       context: ./flight-compare-service
+    image: elasticapm-flight-compare-image
     ports:
       - "3003:3003"
     volumes:
