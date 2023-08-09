@@ -113,22 +113,42 @@ body {
     margin-bottom: 10px;
 }
 /* Media Query for screens smaller than 768px */
+       /* Use media queries for responsiveness */
 @media (max-width: 768px) {
-    .centered-container {
-        display: block;
-        padding: 10px; /* Adjust padding for smaller screens */
-        position: static;
-        top: auto;
-        right: auto;
-    }
-
-    .form-container {
-        width: 100%; /* Full width on smaller screens */
-        padding: 10px;
-        position: static;
-        top: auto;
-        right: auto;
-    }}
+            .centered-container {
+                justify-content: center;
+                padding: 0;
+                top: 80px;
+                right: 0;
+                left: 0;
+            }
+            .form-container {
+                top: 75px;
+                right: 0;
+                left: 0;
+                padding: 20px;
+                border-radius: 0;
+            }
+            .left-side-text {
+                top: 140px;
+                left: 20px;
+                width: 100%;
+                text-align: center;
+                padding: 0 20px;
+            }
+            .container {
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .card {
+                flex: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 
 </head>
