@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flight-compare-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flight-compare
+  template:
+    metadata:
+      labels:
+        app: flight-compare
+    spec:
+      containers:
+      - name: flight-compare-container
+        image: hunain33/flight-compare-service:0.0.0.RELEASE
+        ports:
+        - containerPort: 3003
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-app
+  template:
+    metadata:
+      labels:
+        app: main-app
+    spec:
+      containers:
+      - name: main-app-container
+        image: hunain33/main-app:0.0.0.RELEASE
+        ports:
+        - containerPort: 3002
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prediction
+  template:
+    metadata:
+      labels:
+        app: prediction
+    spec:
+      containers:
+      - name: prediction-container
+        image: hunain33/prediction-service:0.0.0.RELEASE
+        ports:
+        - containerPort: 3001
