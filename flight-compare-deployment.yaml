@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: flight-compare-container
-        image: hunain33/flight-compare:0.0.1.RELEASE  
+        image: hunain33/flight-compare-service:0.0.0.RELEASE
         ports:
         - containerPort: 3003
