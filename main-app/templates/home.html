@@ -20,6 +20,33 @@ body {
     background-position: center;
     background-attachment: fixed; /* Prevent background image scrolling */
 }
+/* Example button hover effect */
+.btn-secondary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Increase size on hover */
+    animation: bounce 1s ease infinite;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
 
 /* Add CSS styles for the centered container */
 .centered-container {
@@ -32,33 +59,23 @@ body {
     top: 140px;
     right: 160px;
 }
-
-/* Add CSS styles to make the form container take one-third of the screen width */
-.form-container {
-    /* width: 600px; */
-    background-color: white; 
-    /* opacity: 0.8; */
-    position: fixed;
-    top: 135px; /* Adjust the top position */
-    right: 150px; /* Adjust the right position */
-    border-radius: 10px; /* Add rounded corners to the container */
-    
-}
-
 /* Add CSS styles to make the card containers smaller and horizontally bigger */
 .card {
     flex: 1; /* Make the cards grow to fill the available space in the row */
     margin-right: 5px; /* Adjust the margin to control the spacing between the cards */
     border: 1px solid black; /* Add a slim black border around each card */
-    height: 70px; /* Adjust the height of the card */
+    height: auto; /* Adjust the height of the card */
     display: flex; /* Use flex display to control text alignment */
     align-items: center; /* Center the content vertically */
     justify-content: center; /* Center the content horizontally */
+    flex-direction: column; /* Stack the content vertically */
+    align-items: center; /* Center the content horizontally */
+    margin-bottom: -20px;
 }
 
 .card-body {
     max-height: 100%;
-    padding: 5px; /* Adjust padding to fit more content within the card */
+    padding: 10px; /* Adjust padding to fit more content within the card */
     font-size: 12px; /* Set the desired font size for the card content */
     text-align: center; /* Center the text horizontally */
     overflow: hidden; /* Hide any overflowing content */
@@ -88,10 +105,45 @@ body {
 .card-body {
     max-width: 100%; /* Set the maximum width to 100% to prevent overflow */
 }
+/* Add CSS styles to make the form container take one-third of the screen width */
+.form-container {
+    /* width: 600px; */
+    background-color: white; 
+    /* opacity: 0.8; */
+    position: fixed;
+    top: 135px; /* Adjust the top position */
+    right: 150px; /* Adjust the right position */
+    border-radius: 10px; /* Add rounded corners to the container */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 56%
+    
+}
+.form-container:hover {
+    transform: scale(1.02); /* Increase size on hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Add shadow on hover */
+}
 
-    .navbar-right.d-flex ul {
-    display: flex;
-    flex-direction: row;
+/* Example input effect */
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    box-shadow: 0 0 5px #007bff; /* Add shadow on focus */
+    color: #007bff;
+}
+input[type="text"]::placeholder, select::placeholder {
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+input[type="text"]:focus::placeholder, select:focus::placeholder {
+    color: #007bff;
 }
 
 .left-side-text {
@@ -111,6 +163,26 @@ body {
 .left-side-text p {
     font-size: 18px;
     margin-bottom: 10px;
+}
+.navbar-right.d-flex ul {
+    display: flex;
+    flex-direction: row;
+}
+select {
+    text-align-last: center;
+}
+.prediction-animation {
+    animation: slide-in 0.5s ease forwards; /* Apply the animation */
+}
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 /* Media Query for screens smaller than 768px */
        /* Use media queries for responsiveness */
@@ -238,7 +310,7 @@ body {
                     <div class="card">
                         <div class="card-body">
                             
-                            <h5 class="card-title">Travelling from (Source)</h5>
+                            <h5 class="card-title">Flying from (Source)</h5>
                             <select name="Source" id="Source" required="required">
                                 <option value="Banglore">Banglore</option>
                                 <option value="Kolkata">Kolkata</option>
@@ -252,7 +324,7 @@ body {
                 <div class="col-sm-6">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Travelling To (Destination)</h5>
+                            <h5 class="card-title">Flying To (Destination)</h5>
                             <!-- Destination -->
                             <select name="Destination" id="Destination" required="required">
                                 <option value="Cochin">Cochin</option>
@@ -308,7 +380,9 @@ body {
             <br>
             <input type="submit" value="Predict Duration" class="btn btn-secondary">
             <br>
-            <h3>{{ prediction_text }}</h3>
+            <div id="prediction-anchor">
+            <h3 class="prediction-animation">{{ prediction_text }}</h3>
+            </div>
         </form>
 
 
@@ -332,6 +406,12 @@ body {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+    <script>
+        function scrollToPrediction() {
+            const predictionAnchor = document.getElementById('prediction-anchor');
+            predictionAnchor.scrollIntoView({ behavior: 'smooth' });
+        }
+        </script>
 
 
 </body>
